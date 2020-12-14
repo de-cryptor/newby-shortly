@@ -1,2 +1,2 @@
-# newby-shotly
+# newby-shortly
 Url Shortner - Django
