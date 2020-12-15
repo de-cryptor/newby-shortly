@@ -23,7 +23,7 @@ def shorturl(request):
     if request.method == 'POST':
         data = request.POST 
         given_url = data['entered_url']
-        base_url = "http://bf3f43b02d4d.ngrok.io/"
+        base_url = "https://85ff4a3bdec6.ngrok.io/"
         
         if validators.url(given_url):
             try:
@@ -41,6 +41,7 @@ def shorturl(request):
             pass
     if not request.user.is_anonymous:
         print(request.user)
+        created_urls = URL.objects.filter(created_by=request.user)
         context_data['created_urls']  = json.loads(serializers.serialize("json",created_urls))
     else:
         context_data['created_urls']  = []

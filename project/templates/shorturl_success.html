@@ -10,12 +10,63 @@
         body {
             background:#0e153a;
             color:#FFFFFF;
-            font-family:
+            font-family: Helvetica;
+            text-align: center;
+        }
+        h2{
+            border: 2px solid #FFFFFF;
+            border-radius: 2px;
+            color:#f6490d;
+            padding: 5px 5px 5px 5px;
+            margin-top:10px;
+        }
+        h4{
+            /* border: 2px solid #9bdf46;
+            border-radius: 2px;
+            color:#9bdf46; */
+            text-align: center;
+            padding: 5px 5px 5px 5px;
+            margin-top:10px;
+        }
+        .given-url{
+            border: 2px solid #FFFFFF;
+            border-radius: 2px;
+            padding: 5px 5px 5px 5px;
+        }
+        .short-url{
+            border: 2px solid #FFFFFF;
+            border-radius: 2px;
+            padding: 5px 5px 5px 5px;
         }
         .url-container{
             /* border: 2px solid blue; */
             margin-left:20%;
             margin-right:20%;
+        }
+        a:link {
+            color:orange;
+        }
+        a:hover {
+            color: hotpink;
+        }
+        .copy-button{
+            border: 2px solid #9bdf46;
+            border-radius: 2px;
+            background:#0e153a;
+            color:#9bdf46;
+            padding: 5px 5px 5px 5px;
+            margin-left: 20px;
+        }
+        input[type=text] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        .form-grp{
+            border: 2px solid #FFFFFF;
+            border-radius: 2px;
+            padding: 5px 5px 5px 5px;
         }
         table {
             font-family: arial, sans-serif;
@@ -29,8 +80,8 @@
         td, th {
             border: 2px solid #FFFFFF;
             border-radius: 2px;
-            text-align: center;
-            padding: 1px;
+            text-align: left;
+            padding: 2px;
         }
         
         tr:nth-child(even) {
@@ -43,41 +94,53 @@
     
     <div class="url-container">
         {% if user.is_authenticated %}
-        <p>Welcome {{ user.username }} !!!</p>
+        <h4>Hi {{ user.username }} !!!</h4>
         {% endif %}
+        <hr style="width:100%;text-align:left;margin-left:0;background-color: #9bdf46;">
         {% if not user.is_authenticated %}
         <a href="{% provider_login_url 'github' %}">Sign Up</a>
         {% endif %}
-        <h1>Welcome to News Bytes Url Shortner Service</h1>
-        <h4>Your given URL - {{given_url}} </h4>
-        <h4 id="item-to-copy">Short Url - {{short_url}} <span><button onclick="copyToClipboard()">Copy</button></span></h4>
-        
-        <p>Want to create another - </p>
-        <form action="/nbapp/short_url/" method="post">
-            <label for="entered_url">Enter your URL </label>
-            <input id="entered_url" type="text" name="entered_url" value="{{ current_url }}">
-            <input type="submit" value="Submit">
-        </form>
-        <h4>Short Urls created by You - </h4>
+        <h2>Welcome to News Bytes Url Shortner Service</h2>
+        {% if given_url %}
+            <h5 class="given-url">Your given URL - <a href="{{given_url}}">{{given_url}}</a> </h5>
+        {% endif %}
+        {% if short_url %}
+        <h5 class="short-url">Short Url - <span id="item-to-copy"><a href="{{short_url}}">{{short_url}}</a></span> <span><button class="copy-button" onclick="copyToClipboard()">Copy</button></span></h5>
+        {% endif %}
+        <div class="form-grp">
+            <form action="/nbapp/short_url/" method="post">
+                <label for="entered_url">
+                    <h4>Enter your URL</h4>
+                    <hr style="width:100%;text-align:left;margin-left:0;background-color: #9bdf46;">
+                </label>
+                <input class="copy-button" id="entered_url" type="text" name="entered_url" value="{{ current_url }}">
+                <input class="copy-button" type="submit" value="Submit">
+            </form>
+        </div>
+        {% if created_urls %}
+        <h2>  Short Urls created by You </h2>
+        {% endif %}
     </div>
-    <table>
-        <tr>
-            <th>#</th>
-            <th>Original Url</th>
-            <th>Short Url</th>
-            <th>Clicked</th>
-            <th>Created On</th>
-        </tr>
-        {% for each in created_urls %}
+    {% if created_urls %}
+        <table>
             <tr>
-                <td>{{each.pk}}</td>
-                <td>{{each.fields.full_url}}</td>
-                <td>{{base_url}}{{each.fields.url_hash}}</td>
-                <td>{{each.fields.clicks}}</td>
-                <td>{{each.fields.created_at}}</td>
+                <!-- <th>#</th> -->
+                <th>Original Url</th>
+                <th>Short Url</th>
+                <th>Clicked</th>
+                <th>Created On</th>
             </tr>
-        {% endfor %}
-    </table>
+            {% for each in created_urls %}
+                <tr>
+                    <!-- <td>{{each.pk}}</td> -->
+                    <td>{{each.fields.full_url}}</td>
+                    <td>{{base_url}}{{each.fields.url_hash}}</td>
+                    <td>{{each.fields.clicks}}</td>
+                    <td>{{each.fields.created_at}} </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
     <script>
         function copyToClipboard() {
             const str = document.getElementById('item-to-copy').innerText;

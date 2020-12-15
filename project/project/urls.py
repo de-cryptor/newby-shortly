@@ -18,7 +18,7 @@ from django.urls import path,include
 from nbapp.views import Home,url_redirect
 
 urlpatterns = [
-    path('', Home.as_view()),
+    path('', Home.as_view(),name='home'),
     path('<str:url_hash>/', url_redirect),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
