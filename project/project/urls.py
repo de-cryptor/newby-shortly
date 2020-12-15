@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from nbapp.views import Home
+from nbapp.views import Home,url_redirect
 
 urlpatterns = [
     path('', Home.as_view()),
+    path('<str:url_hash>/', url_redirect),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('nbapp/', include('nbapp.urls')),
