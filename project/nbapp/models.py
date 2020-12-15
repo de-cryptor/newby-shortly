@@ -10,6 +10,8 @@ class URL(models.Model):
     created_by = models.ForeignKey(User,null=True,blank=True,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return "{} >> {}".format(self.full_url,self.url_hash)
 
     def clicked(self):
         self.clicks += 1
