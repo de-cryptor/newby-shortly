@@ -7,4 +7,6 @@ class Home(TemplateView):
     
 @csrf_exempt
 def shorturl(request):
-    return render(request,'shorturl_success.html')
+    context_data = dict()
+    context_data['short_url'] = "https://nbapp.com/gtyh567sd"
+    return render(request,'shorturl_success.html',context_data)
