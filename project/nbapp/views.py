@@ -65,17 +65,20 @@ def get_client_ip(request):
     return ip
 
 def url_redirect(request,url_hash):
-    link = URL.objects.get(url_hash=url_hash)
-    ip = get_client_ip(request)
-    geo_url = "https://geolocation-db.com/json/{}&position=true".format(ip)
-    response = requests.get(geo_url).json()
-    print(response)
-    url_access = URLClickHistory.objects.create(
-        url=link,
-        ip_address=ip,
-        location=response['city']
-    )
-    link.clicked()
-    return HttpResponseRedirect(link.full_url)
+    try:
+        link = URL.objects.get(url_hash=url_hash)
+        ip = get_client_ip(request)
+        geo_url = "https://geolocation-db.com/json/{}&position=true".format(ip)
+        response = requests.get(geo_url).json()
+        print(response)
+        url_access = URLClickHistory.objects.create(
+            url=link,
+            ip_address=ip,
+            location=response['city']
+        )
+        link.clicked()
+        return HttpResponseRedirect(link.full_url)
+    except:
+        return render(request,'404.html')
 
     
