@@ -24,3 +24,14 @@ class URL(models.Model):
         return super().save(*args, **kwargs)
     
     
+class URLClickHistory(models.Model):
+    url = models.ForeignKey(URL,blank=True,null=True,on_delete=models.CASCADE)
+    ip_address = models.CharField(max_length=100,blank=True,null=True)
+    location = models.CharField(max_length=100,blank=True,null=True)
+    clicked_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return "{} >> {} >> {}".format(self.url.full_url,self.ip_address,self.location)
+    
+    
+    
