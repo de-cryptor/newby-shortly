@@ -1,0 +1,25 @@
+<!-- templates/home.html -->
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>News Bytes Url Shortner Service</h1>
+    {% if user.is_authenticated %}
+    <p>Welcome {{ user.username }} !!!</p>
+    {% else %}
+    <a href="{% provider_login_url 'github' %}">Sign Up</a>
+    {% endif %}
+    <form action="/nbapp/short_url/" method="post">
+        <label for="entered_url">Enter your URL </label>
+        <input id="entered_url" type="text" name="entered_url" value="{{ current_url }}">
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
+
