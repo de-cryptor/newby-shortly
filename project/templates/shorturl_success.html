@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
         body {
@@ -21,12 +22,15 @@
             margin-top:10px;
         }
         h4{
-            /* border: 2px solid #9bdf46;
+            border: 2px solid #9bdf46;
             border-radius: 2px;
-            color:#9bdf46; */
+            color:#9bdf46;
             text-align: center;
             padding: 5px 5px 5px 5px;
             margin-top:10px;
+        }
+        h5{
+            color:#9bdf46;
         }
         .given-url{
             border: 2px solid #FFFFFF;
@@ -40,20 +44,30 @@
         }
         .url-container{
             /* border: 2px solid blue; */
-            margin-left:20%;
-            margin-right:20%;
+            margin-left:5%;
+            margin-right:5%;
         }
         a:link {
+            padding: 5px 5px 5px 5px;
             color:orange;
         }
-        a:hover {
+        /* a:hover {
+            padding: 5px 5px 5px 5px;
             color: hotpink;
-        }
+        } */
         .copy-button{
             border: 2px solid #9bdf46;
             border-radius: 2px;
             background:#0e153a;
             color:#9bdf46;
+            padding: 5px 5px 5px 5px;
+            margin-left: 20px;
+        }
+        .signup-button{
+            border: 2px solid #0e153a;
+            border-radius: 2px;
+            background:cornflowerblue;
+            color:#0e153a;
             padding: 5px 5px 5px 5px;
             margin-left: 20px;
         }
@@ -63,23 +77,27 @@
             margin: 8px 0;
             box-sizing: border-box;
         }
-        .form-grp{
+        /* .form-grp{
             border: 2px solid #FFFFFF;
             border-radius: 2px;
             padding: 5px 5px 5px 5px;
-        }
+        } */
         table {
-            font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 90%;
-            margin-left: auto;
-            margin-right: auto;
+            margin-left: 5%;
+            margin-right: 5%;
             color:#FFFFFF;
         }
-        
+        table.fixed { 
+                table-layout: fixed; 
+            } 
+        table.fixed td { 
+            overflow: hidden; 
+        } 
         td, th {
-            border: 2px solid #FFFFFF;
-            border-radius: 2px;
+            border: 2px solid #9bdf46;
+            border-radius: 5px;
             text-align: left;
             padding: 2px;
         }
@@ -87,19 +105,24 @@
         tr:nth-child(even) {
             background-color: #0e153a;
         }
+        .navbar{
+            background-color: cornflowerblue;
+        }
+        
     </style>
 </head>
 <body>
     
-    
-    <div class="url-container">
+    <div class="navbar">
         {% if user.is_authenticated %}
-        <h4>Hi {{ user.username }} !!!</h4>
+            <h5 style="color: #0e153a;">Hi {{ user.username }} !!!</h5>
         {% endif %}
-        <hr style="width:100%;text-align:left;margin-left:0;background-color: #9bdf46;">
         {% if not user.is_authenticated %}
-        <a href="{% provider_login_url 'github' %}">Sign Up</a>
+            <h5> <a class="signup-button" href="{% provider_login_url 'github' %}"><span class="iconify" data-icon="ant-design:github-filled" data-inline="false"></span>Login/Sign Up using Github for better experience </a> </h5>
         {% endif %}
+    </div>
+    <div class="url-container">
+        
         <h2>Welcome to News Bytes Url Shortner Service</h2>
         {% if given_url %}
             <h5 class="given-url">Your given URL - <a href="{{given_url}}">{{given_url}}</a> </h5>
@@ -110,36 +133,42 @@
         <div class="form-grp">
             <form action="/nbapp/short_url/" method="post">
                 <label for="entered_url">
-                    <h4>Enter your URL</h4>
+                    <h5>Enter your URL</h5>
                     <hr style="width:100%;text-align:left;margin-left:0;background-color: #9bdf46;">
                 </label>
-                <input class="copy-button" id="entered_url" type="text" name="entered_url" value="{{ current_url }}">
+                <span>
+                    <input class="copy-button" id="entered_url" type="text" name="entered_url" value="{{ current_url }}">
+                </span>
                 <input class="copy-button" type="submit" value="Submit">
             </form>
         </div>
         {% if created_urls %}
-        <h2>  Short Urls created by You </h2>
+        <h2>  Your Shortner History </h2>
         {% endif %}
     </div>
     {% if created_urls %}
-        <table>
-            <tr>
-                <!-- <th>#</th> -->
-                <th>Original Url</th>
-                <th>Short Url</th>
-                <th>Clicked</th>
-                <th>Created On</th>
-            </tr>
-            {% for each in created_urls %}
+        <div style="overflow-x: auto;">
+            <table class="fixed">
+                <col style="width: 40%;" />
+                <col style="width: 30%;" />
+                <col style="width: 10%;" />
+                <col style="width: 20%;" />
                 <tr>
-                    <!-- <td>{{each.pk}}</td> -->
-                    <td>{{each.fields.full_url}}</td>
-                    <td>{{base_url}}{{each.fields.url_hash}}</td>
-                    <td>{{each.fields.clicks}}</td>
-                    <td>{{each.fields.created_at}} </td>
+                    <th>Original Url</th>
+                    <th>Short Url</th>
+                    <th>Clicked</th>
+                    <th>Created On</th>
                 </tr>
-            {% endfor %}
-        </table>
+                {% for each in created_urls %}
+                    <tr>
+                        <td>{{each.fields.full_url}}</td>
+                        <td>{{base_url}}{{each.fields.url_hash}}</td>
+                        <td>{{each.fields.clicks}}</td>
+                        <td>{{each.fields.created_at}} </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     {% endif %}
     <script>
         function copyToClipboard() {
@@ -157,4 +186,4 @@
         
     </script>
 </body>
-</html>
+</html> 

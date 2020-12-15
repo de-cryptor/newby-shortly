@@ -23,7 +23,7 @@ def shorturl(request):
     if request.method == 'POST':
         data = request.POST 
         given_url = data['entered_url']
-        base_url = "https://85ff4a3bdec6.ngrok.io/"
+        base_url = "https://immense-island-94283.herokuapp.com/"
         
         if validators.url(given_url):
             try:

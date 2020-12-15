@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.conf import settings
+from django.conf.urls.static import static
 from nbapp.views import Home,url_redirect
+
 
 urlpatterns = [
     path('', Home.as_view(),name='home'),
@@ -23,4 +26,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('nbapp/', include('nbapp.urls')),
     path('<str:url_hash>/', url_redirect),
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
