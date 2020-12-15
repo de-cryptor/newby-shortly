@@ -14,14 +14,14 @@
             font-family: Helvetica;
             text-align: center;
         }
-        h2{
+        h3{
             border: 2px solid #FFFFFF;
             border-radius: 2px;
             color:#f6490d;
             padding: 5px 5px 5px 5px;
             margin-top:10px;
         }
-        h4{
+        h5{
             border: 2px solid #9bdf46;
             border-radius: 2px;
             color:#9bdf46;
@@ -29,7 +29,7 @@
             padding: 5px 5px 5px 5px;
             margin-top:10px;
         }
-        h5{
+        h6{
             color:#9bdf46;
         }
         .given-url{
@@ -115,25 +115,25 @@
     
     <div class="navbar">
         {% if user.is_authenticated %}
-            <h5 style="color: #0e153a;">Hi {{ user.username }} !!!</h5>
+            <h6 style="color: #0e153a;">Hi {{ user.username }} !!!</h6>
         {% endif %}
         {% if not user.is_authenticated %}
-            <h5> <a class="signup-button" href="{% provider_login_url 'github' %}"><span class="iconify" data-icon="ant-design:github-filled" data-inline="false"></span>Login/Sign Up using Github for better experience </a> </h5>
+            <h6> <a class="signup-button" href="{% provider_login_url 'github' %}"><span class="iconify" data-icon="ant-design:github-filled" data-inline="false"></span>Login/Sign Up using Github for better experience </a> </h6>
         {% endif %}
     </div>
     <div class="url-container">
         
-        <h2>Welcome to News Bytes Url Shortner Service</h2>
+        <h3>Welcome to News Bytes Url Shortner Service</h3>
         {% if given_url %}
-            <h5 class="given-url">Your given URL - <a href="{{given_url}}">{{given_url}}</a> </h5>
+            <h6 class="given-url">Your given URL - <a href="{{given_url}}">{{given_url}}</a> </h6>
         {% endif %}
         {% if short_url %}
-        <h5 class="short-url">Short Url - <span id="item-to-copy"><a href="{{short_url}}">{{short_url}}</a></span> <span><button class="copy-button" onclick="copyToClipboard()">Copy</button></span></h5>
+        <h6 class="short-url">Short Url - <span id="item-to-copy"><a href="{{short_url}}">{{short_url}}</a></span> <span><button class="copy-button" onclick="copyToClipboard()">Copy</button></span></h6>
         {% endif %}
         <div class="form-grp">
             <form action="/nbapp/short_url/" method="post">
                 <label for="entered_url">
-                    <h5>Enter your URL</h5>
+                    <h6>Enter your URL</h6>
                     <hr style="width:100%;text-align:left;margin-left:0;background-color: #9bdf46;">
                 </label>
                 <span>
@@ -143,7 +143,7 @@
             </form>
         </div>
         {% if created_urls %}
-        <h2>  Your Shortner History </h2>
+        <h3>  Your Shortner History </h3>
         {% endif %}
     </div>
     {% if created_urls %}
