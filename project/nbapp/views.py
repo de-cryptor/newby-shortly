@@ -9,12 +9,20 @@ import requests
 from django.core import serializers
 import traceback
 
+'''
+This class will render home page for Sign Up/Login.
+'''
 class Home(TemplateView):
     try:
         template_name = 'home.html'
     except:
         template_name = '404.html'
     
+'''
+This function will recieve an full_url and create a url hash for each given url and return it to the user.
+It will also save user for each entry in the database if user is logged in.
+Then it will return all the shortner history with respect to the user.
+'''
 @csrf_exempt
 def shorturl(request):
     context_data = dict()
@@ -55,7 +63,9 @@ def shorturl(request):
     except :
         return render(request,'404.html',context_data)
 
-
+'''
+This function is used to get IP Address of the machine accessing Short Urls.
+'''
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -64,6 +74,10 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+'''
+This function will redirect users to original url , when correct url hash is provided with our base url. 
+Otherwise it will 404 Page.
+'''
 def url_redirect(request,url_hash):
     try:
         link = URL.objects.get(url_hash=url_hash)

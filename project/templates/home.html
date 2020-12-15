@@ -16,14 +16,14 @@
         }
         h3{
             border: 2px solid #FFFFFF;
-            border-radius: 2px;
+            border-radius: 10px;
             color:#f6490d;
             padding: 5px 5px 5px 5px;
             margin-top:10px;
         }
         h5{
             border: 2px solid #9bdf46;
-            border-radius: 2px;
+            border-radius: 10px;
             color:#9bdf46;
             text-align: center;
             padding: 5px 5px 5px 5px;
@@ -34,12 +34,12 @@
         }
         .given-url{
             border: 2px solid #FFFFFF;
-            border-radius: 2px;
+            border-radius: 10px;
             padding: 5px 5px 5px 5px;
         }
         .short-url{
             border: 2px solid #FFFFFF;
-            border-radius: 2px;
+            border-radius: 10px;
             padding: 5px 5px 5px 5px;
         }
         .url-container{
@@ -47,17 +47,9 @@
             margin-left:5%;
             margin-right:5%;
         }
-        a:link {
-            padding: 5px 5px 5px 5px;
-            color:orange;
-        }
-        /* a:hover {
-            padding: 5px 5px 5px 5px;
-            color: hotpink;
-        } */
         .copy-button{
             border: 2px solid #9bdf46;
-            border-radius: 2px;
+            border-radius: 10px;
             background:#0e153a;
             color:#9bdf46;
             padding: 5px 5px 5px 5px;
@@ -65,7 +57,7 @@
         }
         .signup-button{
             border: 2px solid #0e153a;
-            border-radius: 2px;
+            border-radius: 10px;
             background:cornflowerblue;
             color:#0e153a;
             padding: 5px 5px 5px 5px;
@@ -77,11 +69,6 @@
             margin: 8px 0;
             box-sizing: border-box;
         }
-        /* .form-grp{
-            border: 2px solid #FFFFFF;
-            border-radius: 2px;
-            padding: 5px 5px 5px 5px;
-        } */
         table {
             border-collapse: collapse;
             width: 90%;
@@ -97,7 +84,7 @@
         } 
         td, th {
             border: 2px solid #9bdf46;
-            border-radius: 5px;
+            border-radius: 20px;
             text-align: left;
             padding: 2px;
         }
@@ -112,24 +99,29 @@
     </style>
 </head>
 <body>
-    
+    <!-- Navbar -->
     <div class="navbar">
+        <!-- User logged in greeting -->
         {% if user.is_authenticated %}
             <h6 style="color: #0e153a;">Hi {{ user.username }} !!!</h6>
         {% endif %}
+        <!-- Github signup /signin button -->
         {% if not user.is_authenticated %}
             <h6> <a class="signup-button" href="{% provider_login_url 'github' %}"><span class="iconify" data-icon="ant-design:github-filled" data-inline="false"></span>Login/Sign Up using Github for better experience </a> </h6>
         {% endif %}
     </div>
     <div class="url-container">
-        
+        <!-- Welcome to News Bytes -->
         <h3>Welcome to News Bytes Url Shortner Service</h3>
+        <!-- Given URL -->
         {% if given_url %}
             <h6 class="given-url">Your given URL - <a href="{{given_url}}">{{given_url}}</a> </h6>
         {% endif %}
+        <!-- Short URL -->
         {% if short_url %}
         <h6 class="short-url">Short Url - <span id="item-to-copy"><a href="{{short_url}}">{{short_url}}</a></span> <span><button class="copy-button" onclick="copyToClipboard()">Copy</button></span></h6>
         {% endif %}
+        <!-- Enter URL bar and Submit Button -->
         <div class="form-grp">
             <form action="/nbapp/short_url/" method="post">
                 <label for="entered_url">
@@ -139,13 +131,14 @@
                 <span>
                     <input class="copy-button" id="entered_url" type="text" name="entered_url" value="{{ current_url }}">
                 </span>
-                <input class="copy-button" type="submit" value="Submit">
+                <input class="copy-button" type="submit" value="Get Short URL">
             </form>
         </div>
         {% if created_urls %}
         <h3>  Your Shortner History </h3>
         {% endif %}
     </div>
+    <!-- This table will show up the shortner history of the user. -->
     {% if created_urls %}
         <div style="overflow-x: auto;">
             <table class="fixed">
@@ -170,6 +163,7 @@
             </table>
         </div>
     {% endif %}
+    <!-- This javascript code snippet is for copy to clipboard utility. -->
     <script>
         function copyToClipboard() {
             const str = document.getElementById('item-to-copy').innerText;
