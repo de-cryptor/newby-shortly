@@ -35,7 +35,7 @@ def shorturl(request):
         if request.method == 'POST':
             data = request.POST 
             given_url = data['entered_url']
-            base_url = "https://immense-island-94283.herokuapp.com/"
+            base_url = "https://nbyapp.herokuapp.com/"
             
             if validators.url(given_url):
                 try:
