@@ -19,10 +19,8 @@ from nbapp.views import Home,url_redirect
 
 urlpatterns = [
     path('', Home.as_view(),name='home'),
-    path('<str:url_hash>/', url_redirect),
-    path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    path('admin/', admin.site.urls),
     path('nbapp/', include('nbapp.urls')),
-    
-    
+    path('<str:url_hash>/', url_redirect),
 ]
